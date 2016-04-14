@@ -3,7 +3,8 @@ on openCard
     resetGame
 end openCard
 
-// is this a comment?
+//added comment
+
 // Declare a global variable that records from
 // which line buttons are being removed.
 local gCurrentPlayLine
