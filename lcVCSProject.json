@@ -1,0 +1,16 @@
+{
+  "build path": "",
+  "name": "trial",
+  "plugins": [
+    "cRevGeneral",
+    "cREVGeometryCache",
+    "cRevStandaloneSettings",
+    "dataviewProps",
+    "dgProps",
+    "GLX2"
+  ],
+  "resource paths": "",
+  "stackFiles": [
+    "simpleGame.livecode"
+  ]
+}

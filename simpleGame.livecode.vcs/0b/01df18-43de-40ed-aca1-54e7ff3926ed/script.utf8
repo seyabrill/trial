@@ -1,0 +1,99 @@
+on openCard
+    // Reset the game when the stack opens up.
+    resetGame
+end openCard
+
+// is this a comment?
+// Declare a global variable that records from
+// which line buttons are being removed.
+local gCurrentPlayLine
+
+on mouseUp
+    // Declare two variables.
+    local tButtonName, tControl
+    // Specify a delimiter that allows you to select an item in a line of text.
+    set the itemDelimiter to space
+    // Get the name of the button as was specified it in the Property Inspector.
+    put the short name of target into tButtonName
+    // Test if the mouse click comes from a button or something else.
+    // The first item of the target name specifies the
+    // type of control that sent the mouse message.
+    if item 1 of the name of target is "button" then
+        if tButtonName is "Reset" then
+            // If the reset button was pressed then reset the game.
+            resetGame
+        else if tButtonName is "Next Move" then
+            // If the next move button was pressed
+            // then allow the next player to make their move.
+            nextPlayer
+        else
+            // If a game button was pressed, then remove that button.
+            testAndRemoveButton tButtonName
+            // Test if the current state of the game
+            // is a losing state for the current player.
+            testForWin
+        end if
+    end if
+end mouseUp
+
+command resetGame
+// Declare a variable.
+local tControl
+// Specify a delimiter that allows you to select an item in a line of text.
+set the itemDelimiter to space
+// Loop through all the buttons on the card.
+repeat with tControl = 1 to the number of buttons of me
+// Make the button visible that we are currently pointing to.
+set the visible of button tControl to true
+end repeat
+// Set the label of the next move button to Player 1.
+set the label of button "Next Move" to "Player 1"
+// Ensure that the player can start selecting from any line.
+put empty into gCurrentPlayLine
+end resetGame
+
+command nextPlayer
+    // If the next move button displays Player 1, then switch it to Player 2.
+    if the label of button "Next Move" is "Player 1" then
+        set the label of button "Next Move" to "Player 2"
+    else
+    set the label of button "Next Move" to "Player 1"
+    end if
+    // Ensure that the player can start selecting from any line.
+    put empty into gCurrentPlayLine
+end nextPlayer
+
+command testAndRemoveButton pButtonName
+    // Specify a delimiter that allows you to select an item in a line of text.
+    set the itemDelimiter to space
+    // Test if the player is allowed to take that button away from the board.
+    if gCurrentPlayLine is empty or item -1 of pButtonName is gCurrentPlayLine then
+        // Make one of the 15 game buttons invisible.
+        set the visible of control pButtonName to false
+        // Put the line number from which the button
+        // was removed into gCurrentPlayLine.
+        put item -1 of pButtonName into gCurrentPlayLine
+    else
+        // If this was an illegal move then inform the player.
+        answer "That is an illegal move. Only take buttons from the same line." with "Okay"
+    end if
+end testAndRemoveButton
+
+command testForWin
+    // Declare two buttons.
+    local tButtonName, tControl
+    // Specify a delimiter that allows you to select an item in a line of text.
+    set the itemDelimiter to space
+    // Loop through all the buttons on the card.
+    repeat with tControl = 1 to the number of controls of me
+        // Get the name of the button that we are currently pointing at.
+        put the short name of control tControl into tButtonName
+        // If the button we are currently pointing at is visible, then exit this test.
+        if item 1 of tButtonName is "Btn" and the visible of control tButtonName is true then
+            exit testForWin
+        end if
+    end repeat
+    // If we could not find a visible game button, 
+    // then inform the user that they have lost.
+    answer the label of button "Next Move" & ", you have won." with "Okay"
+end testForWin
