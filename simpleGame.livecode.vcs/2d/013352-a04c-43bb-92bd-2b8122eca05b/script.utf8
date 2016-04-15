@@ -4,6 +4,7 @@ on openCard
 end openCard
 
 //added comment by demonearl
+//make it work comment from seyabrill
 
 // Declare a global variable that records from
 // which line buttons are being removed.
