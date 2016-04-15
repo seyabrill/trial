@@ -5,8 +5,27 @@ ehthumbs.db
 # Folder config file
 Desktop.ini
 
-# stack file
-.livecode
+# Ignore StackFiles
+*.livecode
+*.rev
+*.mc
+
+# Ignore user state properties
+userstate.json
+
+# Ignore Externals
+*.dll
+*.bundle
+*.so
+*.lcext
+*.dylib
+
+# Ignore Archives
+*.zip
+
+# Ignore Standalones
+*.app
+*.exe
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
